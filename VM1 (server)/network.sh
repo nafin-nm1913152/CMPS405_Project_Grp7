@@ -1,10 +1,17 @@
 #!/bin/bash
 
+# Check if at least one IP is provided
+
+if [ "$#" -eq 0 ]; then
+    echo "No ip was provided"
+    exit 1
+fi
+
 # Check whether ping and traceroute are installed. Otherwise, install all network tools
 if ! command -v ping &> /dev/null || ! command -v traceroute &> /dev/null; then
     echo "Installing ping and traceroute"
-    sudo apt-get update -y
-    sudo apt-get install -y iputils-ping traceroute net-tools
+    sudo apt-get update -y &> /dev/null
+    sudo apt-get install -y iputils-ping traceroute net-tools &> /dev/null
 fi  
 
 # Creating log file for network
@@ -33,4 +40,5 @@ for i in {1..3}; do
     for target_IP in "$@"; do 
         check "$target_IP"
     done
+    echo "Pass no.$i is done"
 done
