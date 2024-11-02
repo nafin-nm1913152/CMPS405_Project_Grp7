@@ -1,4 +1,10 @@
 #!/bin/bash
+# Make sure sshpass is installed before proceeding
+if ! command -v sshpass &> /dev/null; then
+    echo "sshpass not found, installing..."
+    sudo apt update
+    sudo apt install sshpass -y
+fi
 # Initialize variables for tracking login attempts
 login_attempts=0
 max_login_attempts=3  # maximum login attempts
