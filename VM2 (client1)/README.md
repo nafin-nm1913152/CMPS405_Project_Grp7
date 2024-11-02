@@ -1,8 +1,5 @@
-# CMPS405 Project - Group 7
-**Fall 2024**
+# VM2 (client1)
 
-## Group Members:
-- Nafin Mahmoud
-- Khamis Al-Kubaisi
-- Khalid Abdallah
-- M. Reyad Tuama Halabi
+## Scripts:
+- login.sh
+- check.sh
