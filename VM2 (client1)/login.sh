@@ -1,6 +1,6 @@
 #!/bin/bash
 # Make sure sshpass is installed before proceeding
-if ! command -v sshpass &> /dev/null; then
+if ! command -V sshpass &> /dev/null; then
     echo "sshpass not found, installing..."
     sudo apt update
     sudo apt install sshpass -y
@@ -16,7 +16,7 @@ while [ $login_attempts -lt $max_login_attempts ]; do
     echo
 
     # Attempt to log in (replace 'server_ip' with actual IP)
-    ssh "$user_name@server_ip" echo "Login successful" > /dev/null 2>&1
+    ssh "$user_name@192.168.66.130" echo "Login successful" > /dev/null 2>&1
 
     # Check if attempt failed
     if [ $? -ne 0 ]; then
@@ -33,9 +33,9 @@ done
 
 # show unauthorized message and handle logout after 3 failed attempts
 echo "Unauthorized user"
-sftp "$user_name@server_ip:client_timestamp_invalid_attempts.log"
+sftp "$user_name@192.168.66.130:client_timestamp_invalid_attempts.log"
 sleep 30 && pkill -KILL -u "$user_name"
 # After 3 failed attempts, show unauthorized message and handle logout
 echo "Unauthorized user!"
-sftp "$username@server_ip:client_timestamp_invalid_attempts.log"
+sftp "$username@192.168.66.130:client_timestamp_invalid_attempts.log"
 sleep 30 && pkill -KILL -u "$username"
