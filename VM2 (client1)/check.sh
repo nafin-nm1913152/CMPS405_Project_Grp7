@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Locate the files with 777 permissions and save to a temporary log
-find / -type f -perm 777 > permission_log.log
+find / -type f -perm 777 > permission_log.log 2>/dev/null
 
 # Display and update permissions for each file found
 while read -r file_entry; do
