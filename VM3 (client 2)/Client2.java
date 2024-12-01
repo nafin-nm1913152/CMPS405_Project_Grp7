@@ -2,15 +2,16 @@ import java.net.*;
 import java.io.*;
 
 public class Client2 {
-	private static final String SCRIPT1_PATH = "/home/m_reyad/Desktop/operating_systems_project/phase_02/scripts/search.sh";
-	private static final String SCRIPT2_PATH = "/home/m_reyad/Desktop/operating_systems_project/phase_02/scripts/clientinfo.sh";
+	private static final String SCRIPT1 = "./Search.sh";
+	private static final String SCRIPT2 = "./Clientinfo.sh";
 	public static void main(String[] args) {
 		Socket sock = null;
 		BufferedReader userReader = null;
 		BufferedReader fileReader = null;
+		PrintWriter writer = null;
 		
-		ProcessBuilder scriptPb1 = new ProcessBuilder(SCRIPT1_PATH);
-		ProcessBuilder scriptPb2 = new ProcessBuilder(SCRIPT2_PATH);
+		ProcessBuilder scriptPb1 = new ProcessBuilder(SCRIPT1);
+		ProcessBuilder scriptPb2 = new ProcessBuilder(SCRIPT2);
 		
 		try {
 			// Getting the IP address of the server from the user:
@@ -21,13 +22,13 @@ public class Client2 {
 			// Trying to connect to the server:
 			sock = new Socket(serverAddr, 1300);
 			
-			// Running both scripts (search.sh) and (clientinfo.sh):
+			// Running both scripts (Search.sh) and (Clientinfo.sh):
 			Process scriptProcess1 = scriptPb1.start();
 			Process scriptProcess2 = scriptPb2.start();
 			
 			// Displaying the results of both shell scripts:
-			// First, we display the results of script 1 (search.sh):
-			System.out.println("Displaying the results of script 1 (search.sh):\n");
+			// First, we display the results of script 1 (Search.sh):
+			System.out.println("Displaying the results of script 1 (Search.sh):\n");
 			fileReader = new BufferedReader(new FileReader("bigfile.log"));
 			String line;
 			while ((line = fileReader.readLine()) != null) {
@@ -37,8 +38,8 @@ public class Client2 {
 			// Adding blank lines to improve readability:
 			System.out.println("\n\n\n\n");
 			
-			// Now we display the results of script 2 (clientinfo.sh):
-			System.out.println("Displaying the results of script 2 (clientinfo.sh):\n");
+			// Now we display the results of script 2 (Clientinfo.sh):
+			System.out.println("Displaying the results of script 2 (Clientinfo.sh):\n");
 			fileReader = new BufferedReader(new FileReader("process_info.log"));
 			while ((line = fileReader.readLine()) != null) {
 				System.out.println(line);
@@ -66,7 +67,12 @@ public class Client2 {
 					System.out.println("Would you like to request system information from the server? (yes/no): ");
 					String response = userReader.readLine().trim().toLowerCase();
 					if (response.equals("yes")) {
-						// To be implemented later (according to Server.java)
+						writer = new PrintWriter(sock.getOutputStream(), true);
+						writer.println("GET_SYSTEM_INFO");
+						fileReader = new BufferedReader(new FileReader("SYSTEM_INFO.log"));  
+						while ((line = fileReader.readLine()) != null) {
+							System.out.println(line);
+						}
 					}
 					else {
 						System.out.println("Would you like to disconnect from the server? (yes/no): ");
